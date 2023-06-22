@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 4452954032320456882}
   - component: {fileID: 1885008577618926712}
   - component: {fileID: -4084188527653325916}
-  m_Layer: 0
+  - component: {fileID: -2134492953850070860}
+  m_Layer: 3
   m_Name: EmptyBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,9 +27,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 83344219898772909}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -96,3 +97,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unselectedMaterial: {fileID: 2100000, guid: a4f69ee8c56696d4ca1730ee98f21de7, type: 2}
   selectedMaterial: {fileID: 2100000, guid: 25f621d574f3ae94e9bd66c9045b40b8, type: 2}
+--- !u!65 &-2134492953850070860
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83344219898772909}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9, y: 1.9, z: 1.9}
+  m_Center: {x: 0, y: 0, z: 0}

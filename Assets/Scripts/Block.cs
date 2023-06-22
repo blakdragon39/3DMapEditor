@@ -12,10 +12,7 @@ public class Block : MonoBehaviour {
     private MeshRenderer meshRenderer;
 
     private void Awake() {
-        Debug.Log("we are here????");
         meshRenderer = GetComponent<MeshRenderer>();
-        Debug.Log(GetComponent<Renderer>());
-        Debug.Log(GetComponent<MeshRenderer>());
     }
 
     void Update() {

@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EdittingGrid : MonoBehaviour {
+public class EditingGrid : MonoBehaviour {
 
     [SerializeField] private int initialWidth;
     [SerializeField] private int initialDepth;
     [SerializeField] private int initialHeight;
     [SerializeField] private GameObject emptyBlockPrefab;
+    [SerializeField] private new Camera camera;
     
     private Dictionary<int, Dictionary<int, Dictionary<int, GameObject>>> grid;
+
+    private Block selectedBlock;
     
     private void Awake() {
         grid = new Dictionary<int, Dictionary<int, Dictionary<int, GameObject>>>();
@@ -27,11 +30,25 @@ public class EdittingGrid : MonoBehaviour {
                 }
             }
         }
-        
-        
-        grid[0][0][0].GetComponent<Block>().SetSelected(true);
     }
 
     private void Update() {
+        SelectBlock();
+    }
+
+    private void SelectBlock() {
+        if (Input.GetMouseButtonDown(0)) {
+            var clickRay = camera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(clickRay, out var hitData)) {
+                if (selectedBlock != null) {
+                    selectedBlock.SetSelected(false);
+                }
+
+                var newBlock = hitData.transform.gameObject.GetComponent<Block>();
+                newBlock.SetSelected(true);
+
+                selectedBlock = newBlock;
+            }
+        }
     }
 }
