@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 748663569554712343}
   - component: {fileID: 4452954032320456882}
   - component: {fileID: 1885008577618926712}
+  - component: {fileID: -4084188527653325916}
   m_Layer: 0
   m_Name: EmptyBlock
   m_TagString: Untagged
@@ -59,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 2dc7ae6cde133054fb43a8779fa20d7c, type: 3}
+  - {fileID: 2100000, guid: a4f69ee8c56696d4ca1730ee98f21de7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-4084188527653325916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83344219898772909}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbbd01d789b7c4e429b9e2581ea4adc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unselectedMaterial: {fileID: 2100000, guid: a4f69ee8c56696d4ca1730ee98f21de7, type: 2}
+  selectedMaterial: {fileID: 2100000, guid: 25f621d574f3ae94e9bd66c9045b40b8, type: 2}

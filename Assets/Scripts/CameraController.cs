@@ -6,15 +6,9 @@ public class CameraController : MonoBehaviour {
     [SerializeField] private float rotationSpeed = 1.0f;
     [SerializeField] private float panSpeed = 1.0f;
 
-    private Camera camera;
-
     private Vector3 lastMousePos;
     private Vector3 mousePosChange;
 
-    private void Awake() {
-        camera = GetComponent<Camera>();
-    }
-    
     private void Update() {
         var newMousePos = Input.mousePosition;
         mousePosChange = lastMousePos - newMousePos;
@@ -37,13 +31,14 @@ public class CameraController : MonoBehaviour {
     private void UpdateRotation() {
         if (!Input.GetMouseButton(2)) return;
 
-        var rotationChange = new Vector3(-mousePosChange.y, mousePosChange.x, 0);
+        var rotationChange = new Vector3(-mousePosChange.y, mousePosChange.x);
         transform.eulerAngles -= rotationChange * rotationSpeed;
     }
 
     private void UpdatePan() {
         if (!Input.GetMouseButton(1)) return;
-
-        transform.position += mousePosChange * panSpeed;
+        
+        var panChange = new Vector3(-mousePosChange.x, mousePosChange.y);
+        transform.position += panChange * panSpeed;
     }
 }
