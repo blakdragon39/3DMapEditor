@@ -2,22 +2,24 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
+    [SerializeField] private GameObject modelContainer;
+    [SerializeField] private new Camera camera;
+    
     [SerializeField] private float zoomSpeed = 1.0f;
     [SerializeField] private float rotationSpeed = 1.0f;
     [SerializeField] private float panSpeed = 1.0f;
 
-    private Vector3 lastMousePos;
-    private Vector3 mousePosChange;
+    private Vector3 mouseWorldPosStart;
+    private float mouseX;
+    private float mouseY;
 
     private void Update() {
-        var newMousePos = Input.mousePosition;
-        mousePosChange = lastMousePos - newMousePos;
-        
+        mouseX = Input.GetAxis("Mouse X");
+        mouseY = Input.GetAxis("Mouse Y");
+
         UpdateZoom();
         UpdateRotation();
         UpdatePan();
-
-        lastMousePos = newMousePos;
     }
 
     private void UpdateZoom() {
@@ -30,15 +32,29 @@ public class CameraController : MonoBehaviour {
 
     private void UpdateRotation() {
         if (!Input.GetMouseButton(2)) return;
-
-        var rotationChange = new Vector3(-mousePosChange.y, mousePosChange.x);
-        transform.eulerAngles -= rotationChange * rotationSpeed;
+        
+        transform.Rotate(Vector3.right, -mouseY * rotationSpeed);
+        transform.Rotate(Vector3.up, mouseX * rotationSpeed, Space.World);
     }
 
     private void UpdatePan() {
+        if (Input.GetMouseButtonDown(1)) {
+            mouseWorldPosStart = GetPerspectivePos();
+            return;
+        }
+        
         if (!Input.GetMouseButton(1)) return;
         
-        var panChange = new Vector3(-mousePosChange.x, mousePosChange.y);
-        transform.position += panChange * panSpeed;
+        if (mouseX != 0 || mouseY != 0) {
+            Vector3 mouseWorldPosDiff = mouseWorldPosStart - GetPerspectivePos();
+            transform.position += mouseWorldPosDiff;
+        }
+    }
+
+    private Vector3 GetPerspectivePos() {
+        var ray = camera.ScreenPointToRay(Input.mousePosition);
+        var plane = new Plane(transform.forward, 0.0f);
+        plane.Raycast(ray, out float distance);
+        return ray.GetPoint(distance);
     }
 }
