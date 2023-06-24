@@ -260,11 +260,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 110324b9ee0bd784cbf30b3ac098b37e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modelContainer: {fileID: 1843476779}
   camera: {fileID: 2048194188}
   zoomSpeed: 1
   rotationSpeed: 0.5
-  panSpeed: 0.5
 --- !u!1 &1843476779
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +275,7 @@ GameObject:
   - component: {fileID: 1843476780}
   - component: {fileID: 1843476782}
   m_Layer: 0
-  m_Name: EdittingGrid
+  m_Name: EditingGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

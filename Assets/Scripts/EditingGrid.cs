@@ -38,7 +38,8 @@ public class EditingGrid : MonoBehaviour {
 
     private void SelectBlock() {
         if (Input.GetMouseButtonDown(0)) {
-            var clickRay = camera.ScreenPointToRay(Input.mousePosition);
+            var mousePos = Input.mousePosition;
+            var clickRay = camera.ScreenPointToRay(mousePos);
             if (Physics.Raycast(clickRay, out var hitData)) {
                 if (selectedBlock != null) {
                     selectedBlock.SetSelected(false);

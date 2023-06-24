@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
-    [SerializeField] private GameObject modelContainer;
     [SerializeField] private new Camera camera;
     
     [SerializeField] private float zoomSpeed = 1.0f;
     [SerializeField] private float rotationSpeed = 1.0f;
-    [SerializeField] private float panSpeed = 1.0f;
 
     private Vector3 mouseWorldPosStart;
     private float mouseX;
@@ -27,7 +25,7 @@ public class CameraController : MonoBehaviour {
         if (scrollChange == 0) return;
 
         var direction = scrollChange > 0 ? Vector3.forward : Vector3.back;
-        transform.Translate(direction * zoomSpeed);
+        camera.transform.Translate(direction * zoomSpeed);
     }
 
     private void UpdateRotation() {
