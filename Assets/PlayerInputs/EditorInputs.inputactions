@@ -1,5 +1,5 @@
 {
-    "name": "CameraInputs",
+    "name": "EditorInputs",
     "maps": [
         {
             "name": "Player",
@@ -54,6 +54,24 @@
                     "name": "Select",
                     "type": "Button",
                     "id": "84bc1242-7625-4fab-8aa3-2f89987505b0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveSelectionUp",
+                    "type": "Button",
+                    "id": "97645163-f16b-4e74-b1de-5f365da8020d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveSelectionDown",
+                    "type": "Button",
+                    "id": "02fe02cc-7857-4fb9-a421-24c9662e6b4d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -124,6 +142,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92e9a76a-680c-4f44-badb-cef36a1439b8",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveSelectionUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aef4c053-3035-4c43-9936-e9981dbea09e",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveSelectionDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class EditingGrid : MonoBehaviour {
 
@@ -12,9 +13,15 @@ public class EditingGrid : MonoBehaviour {
     private Dictionary<int, Dictionary<int, Dictionary<int, GameObject>>> grid;
 
     private Block selectedBlock;
+    private int curWidth;
+    private int curDepth;
+    private int curHeight;
     
     private void Awake() {
         grid = new Dictionary<int, Dictionary<int, Dictionary<int, GameObject>>>();
+        curWidth = initialWidth;
+        curDepth = initialDepth;
+        curHeight = initialHeight;
 
         for (int x = 0; x < initialWidth; x++) {
             grid[x] = new Dictionary<int, Dictionary<int, GameObject>>();
@@ -23,22 +30,21 @@ public class EditingGrid : MonoBehaviour {
                 for (int z = 0; z < initialDepth; z++) {
                     var blockObject = Instantiate(emptyBlockPrefab, new Vector3(x, y, z), Quaternion.identity, transform);
                     var block = blockObject.GetComponent<Block>();
+                    
+                    blockObject.GetComponent<BoxCollider>().enabled = y == 0;
+                    
                     block.X = x;
                     block.Y = y;
                     block.Z = z;
+                    
                     grid[x][y][z] = blockObject;
                 }
             }
         }
     }
 
-    private void Update() {
-    }
-    
     public void SelectBlock() {
-        Debug.Log($"select block at ...");
         var mousePos = InputUtils.GetMousePos();
-        Debug.Log($"select block at {mousePos}");
         var clickRay = camera.ScreenPointToRay(mousePos);
         if (Physics.Raycast(clickRay, out var hitData)) {
             if (selectedBlock != null) {
@@ -50,5 +56,34 @@ public class EditingGrid : MonoBehaviour {
 
             selectedBlock = newBlock;
         }
+    }
+
+    public void MoveSelectionUp(InputAction.CallbackContext context) {
+        if (context.started) {
+            ChangeSelection(0, 1, 0);   
+        }
+    }
+    
+    public void MoveSelectionDown(InputAction.CallbackContext context) {
+        if (context.started) {
+            ChangeSelection(0, -1, 0);
+        }
+    }
+
+    private void ChangeSelection(int x, int y, int z) {
+        int newX = selectedBlock.X + x;
+        int newY = selectedBlock.Y + y;
+        int newZ = selectedBlock.Z + z;
+
+        if (newX >= curWidth || newX < 0) return;
+        if (newY >= curHeight || newY < 0) return;
+        if (newX >= curDepth || newZ < 0) return;
+        
+        selectedBlock.SetSelected(false);
+
+        var newBlock = grid[newX][newY][newZ].GetComponent<Block>();
+        newBlock.SetSelected(true);
+
+        selectedBlock = newBlock;
     }
 }
