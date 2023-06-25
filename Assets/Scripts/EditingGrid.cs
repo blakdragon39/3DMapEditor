@@ -33,23 +33,22 @@ public class EditingGrid : MonoBehaviour {
     }
 
     private void Update() {
-        SelectBlock();
     }
-
-    private void SelectBlock() {
-        if (Input.GetMouseButtonDown(0)) {
-            var mousePos = Input.mousePosition;
-            var clickRay = camera.ScreenPointToRay(mousePos);
-            if (Physics.Raycast(clickRay, out var hitData)) {
-                if (selectedBlock != null) {
-                    selectedBlock.SetSelected(false);
-                }
-
-                var newBlock = hitData.transform.gameObject.GetComponent<Block>();
-                newBlock.SetSelected(true);
-
-                selectedBlock = newBlock;
+    
+    public void SelectBlock() {
+        Debug.Log($"select block at ...");
+        var mousePos = InputUtils.GetMousePos();
+        Debug.Log($"select block at {mousePos}");
+        var clickRay = camera.ScreenPointToRay(mousePos);
+        if (Physics.Raycast(clickRay, out var hitData)) {
+            if (selectedBlock != null) {
+                selectedBlock.SetSelected(false);
             }
+
+            var newBlock = hitData.transform.gameObject.GetComponent<Block>();
+            newBlock.SetSelected(true);
+
+            selectedBlock = newBlock;
         }
     }
 }

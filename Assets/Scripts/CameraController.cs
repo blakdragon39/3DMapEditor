@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using Pointer = UnityEngine.InputSystem.Pointer;
 
 public class CameraController : MonoBehaviour {
 
@@ -8,49 +10,73 @@ public class CameraController : MonoBehaviour {
     [SerializeField] private float rotationSpeed = 1.0f;
 
     private Vector3 mouseWorldPosStart;
-    private float mouseX;
-    private float mouseY;
+    private Vector3 lastMousePos;
+
+    private bool panning;
+    private bool rotating;
 
     private void Update() {
-        mouseX = Input.GetAxis("Mouse X");
-        mouseY = Input.GetAxis("Mouse Y");
-
-        UpdateZoom();
-        UpdateRotation();
-        UpdatePan();
     }
 
-    private void UpdateZoom() {
-        var scrollChange = Input.mouseScrollDelta.y;
-        if (scrollChange == 0) return;
-
-        var direction = scrollChange > 0 ? Vector3.forward : Vector3.back;
+    public void UpdateZoom() {
+        var scrollUp = Mouse.current.scroll.up.ReadValue();
+        
+        var direction = scrollUp > 0 ? Vector3.forward : Vector3.back;
         camera.transform.Translate(direction * zoomSpeed);
     }
 
-    private void UpdateRotation() {
-        if (!Input.GetMouseButton(2)) return;
-        
-        transform.Rotate(Vector3.right, -mouseY * rotationSpeed);
-        transform.Rotate(Vector3.up, mouseX * rotationSpeed, Space.World);
+    public void StartRotation(InputAction.CallbackContext context) {
+        if (context.started) {
+            lastMousePos = InputUtils.GetMousePos();
+            rotating = true;
+        } else if (context.canceled) {
+            rotating = false;
+        }
     }
 
-    private void UpdatePan() {
-        if (Input.GetMouseButtonDown(1)) {
+    public void UpdateRotation() {
+        if (!rotating) return;
+
+        var newMousePos = InputUtils.GetMousePos();
+        var mouseXAxis = newMousePos.x - lastMousePos.x;
+        var mouseYAxis = newMousePos.y - lastMousePos.y;
+
+        mouseXAxis = mouseXAxis switch {
+            > 0 => 1,
+            < 0 => -1,
+            _ => 0
+        };
+
+        mouseYAxis = mouseYAxis switch {
+            > 0 => 1,
+            < 0 => -1,
+            _ => 0
+        };
+        
+        transform.Rotate(Vector3.right, -mouseYAxis * rotationSpeed);
+        transform.Rotate(Vector3.up, mouseXAxis * rotationSpeed, Space.World);
+
+        lastMousePos = newMousePos;
+    }
+
+    public void StartPan(InputAction.CallbackContext context) {
+        if (context.started) {
+            panning = true;
             mouseWorldPosStart = GetPerspectivePos();
-            return;
+        } else if (context.canceled) {
+            panning = false;
         }
+    }
+    
+    public void UpdatePan() {
+        if (!panning) return;
         
-        if (!Input.GetMouseButton(1)) return;
-        
-        if (mouseX != 0 || mouseY != 0) {
-            Vector3 mouseWorldPosDiff = mouseWorldPosStart - GetPerspectivePos();
-            transform.position += mouseWorldPosDiff;
-        }
+        Vector3 mouseWorldPosDiff = mouseWorldPosStart - GetPerspectivePos();
+        transform.position += mouseWorldPosDiff;
     }
 
     private Vector3 GetPerspectivePos() {
-        var ray = camera.ScreenPointToRay(Input.mousePosition);
+        var ray = camera.ScreenPointToRay(Pointer.current.position.ReadValue());
         var plane = new Plane(transform.forward, 0.0f);
         plane.Raycast(ray, out float distance);
         return ray.GetPoint(distance);
